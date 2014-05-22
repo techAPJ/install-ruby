@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Install Rails
+# Install Ruby
 
 trap 'ret=$?; test $ret -ne 0 && printf "failed\n\n" >&2; exit $ret' EXIT
 
@@ -24,15 +24,6 @@ log_info "Installing base ruby build dependencies ..."
 
 log_info "Installing libraries for common gem dependencies ..."
   sudo apt-get -y install libxslt1-dev libcurl4-openssl-dev libksba8 libksba-dev libqtwebkit-dev libreadline-dev
-
-log_info "Installing sqlite3 ..."
- sudo apt-get -y install libsqlite3-dev sqlite3
-
-log_info "Installing Postgres ..."
-  sudo apt-get -y install postgresql postgresql-server-dev-all postgresql-contrib
-
-log_info "Installing Redis ..."
-  sudo apt-get -y install redis-server
 
 log_info "Installing curl ..."
   sudo apt-get -y install curl
@@ -75,13 +66,3 @@ log_info "Setting $ruby_version as global default Ruby ..."
 
 log_info "Updating to latest Rubygems version ..."
   gem update --system
-
-log_info "Installing Rails ..."
-  gem install rails -V
-
-log_info "Installing Bundler ..."
-  gem install bundler --no-document --pre
-
-log_info "Configuring Bundler for faster, parallel gem installation ..."
-  number_of_cores=$(nproc)
-  bundle config --global jobs $((number_of_cores - 1))
